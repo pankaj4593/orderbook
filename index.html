@@ -1,0 +1,1339 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>OrderBook</title>
+  <link rel="stylesheet" href="./style.css">
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<link rel="stylesheet" type="text/css" href="CSS/exchange_v2.2.0.css">
+
+<div id="gray-background-overlay" class="gray-background-overlay">
+</div>
+<div id="gray-background-overlay2" class="gray-background-overlay">
+</div>
+<div id="header">
+	<div id="header-menu">
+		<div id="header-menu-exchange-button" class="header-menu-button header-menu-toggled select-none" style="
+			font-weight: 400;
+		"><div style="
+			width: 4px;
+			height: 9px;
+			top: 13px;
+			left: 31px;
+			background-color: rgb(255, 255, 255);
+			position: absolute;
+		"></div><div style="
+			width: 4px;
+			height: 6px;
+			top: 16px;
+			left: 26px;
+			background-color: rgb(255, 255, 255);
+			position: absolute;
+		"></div>
+			<div id="header-menu-logo" class="alcurex-logo">
+				<div class="alcurex-logo-bar alcurex-logo-shorter-bar">
+				</div>
+				<div class="alcurex-logo-bar alcurex-logo-longer-bar">
+				</div>
+				<span class="alcurex-logo-text">lcurex</span>
+			</div>
+		</div>
+		<!-- <div id="header-menu-addcoin-button" class="header-menu-button select-none">
+			<span id="header-menu-addcoin-text">ADD COIN</span>
+		</div> -->
+		<div id="header-menu-info-button" class="header-menu-button select-none">
+			<span id="header-menu-info-text">INFO</span>
+			<div id="header-menu-info-triangle"></div>
+			<div id="header-menu-info-dropdown">
+				<div id="header-menu-coin-info" class="header-menu-dropdown-row">COIN INFO</div>
+				<div id="header-menu-alcurex-info" class="header-menu-dropdown-row">ALCUREX INFO</div>
+			</div>
+		</div>
+		<div id="header-menu-local-exchange" class="header-menu-page-button header-menu-button select-none" title="< 10 BTC 24h Vol">
+			<span>PENNY MARKETS</span>
+		</div>
+		<div id="header-menu-global-exchange" class="header-menu-page-button header-menu-button select-none"
+			title="> 10 BTC 24h Vol">
+			<span>MAIN EXCHANGE</span>
+		</div>
+		<div id="header-menu-profile">
+			<div id="header-menu-profile-login" class="header-menu-profile-portfolio-login-signup header-menu-profile-portfolio select-none">
+				<!--<span class="header-menu-profile-text">Login</span>-->
+				<span class="header-menu-profile-text"></span>
+				<div class="profile-menu-triangle"></div>
+				<div id="header-menu-profile-dropdown">
+					<div class="header-menu-dropdown-row header-menu-profile-dropdown-row">DEPOSIT/WITHDRAW</div>
+					<div class="header-menu-dropdown-row header-menu-profile-dropdown-row">MY OPEN ORDERS</div>
+					<div id="header-menu-dropdown-history-data" class="header-menu-dropdown-row header-menu-profile-dropdown-row">HISTORY DATA</div>
+					<div class="header-menu-dropdown-row header-menu-profile-dropdown-row">SETTINGS</div>
+					<div id="header-menu-dropdown-logout" class="header-menu-dropdown-row">LOG OUT</div>
+				</div>
+			</div>
+			<div id="header-menu-profile-signup" class="header-menu-profile-portfolio-login-signup header-menu-profile-portfolio select-none">
+				<!--<span class="header-menu-profile-text" style="text-decoration: underline;">Sign Up</span>-->
+				<span class="header-menu-profile-text">0.000<span> BTC</span></span>
+				<div class="profile-menu-triangle"></div>
+				<div id="header-menu-portfolio-dropdown">
+					<div id="header-menu-portfolio-dropdown-wrapper-index-row">
+					PORTFOLIO
+					</div>
+					<div id="header-menu-portfolio-dropdown-wrapper" class="scrollable">
+						<div class="header-menu-dropdown-row header-menu-portfolio-dropdown-row cursor-default select-none">
+							<span class="header-menu-dropdown-row-balance"></span>
+							<span class="header-menu-dropdown-row-orders"></span>
+							<span class="header-menu-dropdown-row-total"></span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="header-menu-login" class="header-menu-profile-portfolio-login-signup header-menu-login-signup select-none">
+				<span class="header-menu-profile-text">Login</span>
+			</div>
+			<div id="header-menu-signup" class="header-menu-profile-portfolio-login-signup header-menu-login-signup select-none">
+				<span class="header-menu-profile-text" style="text-decoration: underline;">Sign Up</span>
+			</div>
+		</div>
+<!-- 		<div style="
+    width: 200px;
+    height: 60%;
+    display: inline-block;
+    background-color: rgb(3, 80, 107);
+    float: right;
+    margin-top: 7px;
+    border-radius: 3px;
+    overflow: hidden;
+    position: relative;
+    "><div style="
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    display: flex;
+    justify-content: space-between;
+    color: #ffffff;
+    font-size: 11px;
+    align-items: center;
+    cursor: pointer;
+    "><span style="
+    margin-left: 10px;
+">Level 1</span><span style="
+    margin-right: 10px;
+">Level 2</span></div>
+  <div style="
+    background-color: rgb(56, 185, 136);
+    height: 100%;
+    width: 30%;
+"></div>
+
+</div> -->
+<!-- <div id="header-menu-market-info-popup">
+  
+  <img src="CSS/img/coins/NAV.png" style="
+    width: 15px;
+    height: 15px;
+">
+  
+  <span>NAV/BTC</span>
+  <span style="
+">+32.2%</span>
+  <span>0.00004445</span>
+  <span>4.404255BTC</span>
+  <div style="
+    width: 0;
+    height: 0;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-bottom: 6px solid #42ffa7;
+    position: relative;
+"></div>
+
+
+</div> -->
+	</div>
+</div>
+<div id="wrapper">
+	<div id="exchange-page-wrapper">
+		<div id="notification-messages-wrapper">
+			<div class="notification-window cursor-pointer-select-none" style="display: none;">
+				<div class="notification-message-text notification-message-row-outer-wrapper">
+				</div>
+				<div class="notification-message-row-outer-wrapper">
+					<div class="notification-message-row-wrapper">
+						<span>Price:</span>
+						<span></span>
+					</div>
+					<div class="notification-message-row-wrapper">
+						<span>Amount:</span>
+						<span></span>
+					</div>
+				</div>
+			</div>
+			<!-- <div class="deposit-withdraw-notification notification-window cursor-pointer-select-none">
+				<div class="notification-message-text notification-message-row-outer-wrapper">
+					MRC Deposit processed.
+				</div>
+				<div class="deposit-withdraw-notification-amount-wrapper notification-message-row-outer-wrapper">
+					<div class="notification-message-row-wrapper">
+						<span>Amount:</span>
+						<span>100000000.00000000 MRC</span>
+					</div>
+				</div>
+			</div> -->
+		</div>
+		<div id="right-wrapper">
+			<div id="right-inner-wrapper">
+				<div id="chatbox-wrapper" class="chatbox-wrapper-hidden">
+					<div id="chatbox-toggle">
+						<div class="toggle-buttons chatbox-toggle-buttons select-none"><span>News</span></div>
+						<div class="toggle-buttons chatbox-toggle-buttons select-none"><span>Trollbox</span></div>
+						<div class="toggle-buttons chatbox-toggle-buttons toggle-buttons-last-in-row select-none"><span>Live Support</span></div>
+					</div>
+					<div id="chatbox-news" class="chatbox-switch-module">
+						<div id="chatbox-news-rows" class="scrollable">
+							<div class="chatbox-news-row scrollable" tabindex="31">
+								<div class="chatbox-news-row-date"></div>
+								<div class="chatbox-news-row-title"></div>
+								<div class="chatbox-news-row-msg"></div>
+								<div class="chatbox-news-row-type-label"></div>
+								<div class="chatbox-news-row-dots-overlay"><span class="chatbox-news-row-dots">...</span></div>
+							</div>
+						</div>
+					</div>
+					<div id="local-chat" class="chatbox-switch-module">
+						<div id="local-chat-messages" class="chat-messages scrollable">
+								<div class="local-chat-message chat-message">
+									<span class="username cursor-pointer-select-none"></span>
+									<span class="message"></span>
+								</div>
+						</div>
+						<div id="local-chat-input" class="chat-input" maxlength="100">
+							<textarea id="local-chat-textarea" maxlength="220" placeholder="Type here to chat" class="chat-textarea"></textarea>
+						</div>
+					</div>
+					<div id="support-chat" class="chatbox-switch-module">
+						<div id="support-chat-messages" class="chat-messages scrollable">
+								<div class="support-chat-message chat-message">
+									<span class="username cursor-pointer-select-none">MCR</span>
+									<span class="message">Hello, how can I help you?</span>
+								</div>
+						</div>
+						<div id="support-chat-input" class="chat-input">
+							<textarea id="support-chat-textarea" maxlength="220" class="chat-textarea" placeholder="Admins online between 07:00 - 17:00 (UTC)"></textarea>
+						</div>
+					</div>
+				</div>
+				<div id="chatbox-hide-toggle" class="chatbox-hide-toggle-toggled">
+					<div></div>
+				</div>
+				<div id="right-bottom-module-wrapper" class="right-bottom-module-wrapper-expanded">
+					<div id="trade-history-load-overlay" class="load-overlay">
+						<div class='uil-ring-css' style='transform:scale(0.17);'><div></div></div>
+					</div>
+					<div id="right-bottom-module-toggle-menu">
+						<div class="toggle-buttons right-bottom-module-toggle select-none"><span>BTC Markets</span></div>
+						<div class="toggle-buttons toggle-buttons-last-in-row right-bottom-module-toggle select-none"><span>USD Markets</span></div>
+					</div>
+					<div id="market-index-row-wrapper">
+						<div class="market-index-row cursor-default select-none">
+							<span id="market-coin-index" class="market-coin-index">Coin</span>
+							<span id="market-change-index" class="market-change-index" title="24hr % Change">%</span>
+							<span id="market-price-index" class="market-price-index" title="Currency Unit Price">Avg. Price</span>
+							<span id="market-volume-index" class="market-global-v-index market-index-selected" title="Global Volume">Volume</span>
+						</div>
+					</div>
+					<div id="market-pairs-local-BTC" class="markets-switch-menu-module scrollable">
+						<div class="market-row-local-BTC market-row">
+							<span class="market-coin"></span>
+							<span class="market-change"></span>
+							<span class="market-price"></span>
+							<span class="market-volume"></span>
+							<div class="bubble-animation">
+								<div></div>
+								<div></div>
+							</div>
+						</div>
+					</div>
+					<div id="market-pairs-global-BTC" class="right-bottom-module-switch-module markets-switch-menu-module scrollable">
+						<div class="market-row-global-BTC market-row">
+							<span class="market-coin"></span>
+							<span class="market-change"></span>
+							<span class="market-price"></span>
+							<span class="market-volume"></span>
+							<div class="bubble-animation">
+								<div></div>
+								<div></div>
+							</div>
+						</div>
+					</div>
+					<div id="market-pairs-global-USD" class="right-bottom-module-switch-module markets-switch-menu-module scrollable">
+						<div class="market-row-global-USD market-row">
+							<span class="market-coin"></span>
+							<span class="market-change"></span>
+							<span class="market-price"></span>
+							<span class="market-volume"></span>
+							<div class="bubble-animation">
+								<div></div>
+								<div></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="left-wrapper">
+			<div id="chart-area-wrapper">
+				<div id="chart-header">
+					<div id="price-chart-coin-label" class="select-none">
+						<!-- <img id="price-chart-coin-label-logo" src="CSS/img/coins/LTC.png"/> -->
+						<span id="price-chart-coin-label-name">LITECOIN</span>
+					</div>
+					<div id="price-chart-global-label" class="cursor-pointer-select-none">
+						<span id="price-chart-global-label-question-mark">?</span>
+						<!-- <img id="price-chart-global-label-img" src="CSS/img/globe.png"/> -->
+						<span id="price-chart-global-label-name">REMOTE MARKET</span>
+					</div>
+					<div id="price-chart-ticker-menu">
+						<div id="price-chart-ticker-menu-5m" class="price-chart-ticker-menu-button select-none">
+							<span class="price-chart-ticker-menu-text">24h</span>
+						</div>
+						<div id="price-chart-ticker-menu-30m" class="price-chart-ticker-menu-button price-chart-ticker-menu-selected select-none">
+							<span class="price-chart-ticker-menu-text">7d</span>
+						</div>
+						<div id="price-chart-ticker-menu-2h" class="price-chart-ticker-menu-button select-none">
+							<span class="price-chart-ticker-menu-text">1mo</span>
+						</div>
+						<div id="price-chart-ticker-menu-12h" class="price-chart-ticker-menu-button select-none">
+							<span class="price-chart-ticker-menu-text">6mo</span>
+						</div>
+					</div>
+				</div>
+				<div id="chart-wrapper">
+					<div id="chart-wrapper-24h-info-bar" class="chart-wrapper-top-info-bar">
+						<span>24h High: <span id="price-chart-24h-info-high"></span></span>
+						<span>24h Low: <span id="price-chart-24h-info-low"></span></span>
+						<span>24h Change: <span id="price-chart-24h-info-change"></span></span>
+						<span>24h Volume: <span id="price-chart-24h-info-volume"></span></span>
+					</div>
+					<div id="chart-wrapper-ticker-info-bar" class="chart-wrapper-top-info-bar">
+						<span>High: <span id="price-chart-ticker-info-high"></span></span>
+						<span>Low: <span id="price-chart-ticker-info-low"></span></span>
+						<span>Open: <span id="price-chart-ticker-info-open"></span></span>
+						<span>Close: <span id="price-chart-ticker-info-close"></span></span>
+						<span>Volume: <span id="price-chart-ticker-info-volume"></span></span>
+					</div>
+					<div id="chart-wrapper-left-line"></div>
+					<div id="chart-load-overlay" class="load-overlay" style="animation-name: load-animation-fade-out; display: none;">
+						<div class="uil-ring-css" style="transform:scale(0.17);"><div></div></div>
+					</div>
+					<div id="no-chart-info-overlay" style="display: none;">
+						<span>No chart info available
+							<br><span id="cheeky-fix-by-trading-text"></span>
+						</span>
+					</div>
+					<svg xmlns="http://www.w3.org/2000/svg" id="price-chart">
+						<g>
+							<line x1="0" x2="2250" y1="100%" y2="100%" class="background-line"></line>
+							<line x1="0" x2="2250" y1="80%" y2="80%" class="background-line"></line>
+							<line x1="0" x2="2250" y1="60%" y2="60%" class="background-line"></line>
+							<line x1="0" x2="2250" y1="40%" y2="40%" class="background-line"></line>
+							<line x1="0" x2="2250" y1="20%" y2="20%" class="background-line"></line>
+						</g>
+						<g id="price-chart-background-lines" transform="translate(0.5, 0)"></g>
+						<g id="global-price-chart" transform="translate(0, 0)"></g>
+						<g id="local-price-chart" transform="translate(0, 0)"></g>
+						<rect class="chart-right-indicator-bar" x="2170.5px" y="0%"></rect>
+						<text x="2000px" y="0%" class="chart-price-indicators">
+							<!-- <tspan x="2177px" y="10%">- <tspan class="chart-price-indicator-null">0.0000</tspan><tspan class="chart-price-indicator"></tspan> -</tspan> -->
+							<!-- <tspan x="2177px" y="20%">- <tspan class="chart-price-indicator-null">0.0000</tspan><tspan class="chart-price-indicator"></tspan> -</tspan> -->
+							<tspan x="2177px" y="15%">- <tspan class="chart-price-indicator-null"></tspan><tspan class="chart-price-indicator"></tspan> -</tspan>
+							<tspan x="2177px" y="32.5%">- <tspan class="chart-price-indicator-null"></tspan><tspan class="chart-price-indicator"></tspan> -</tspan>
+							<tspan x="2177px" y="50%">- <tspan class="chart-price-indicator-null"></tspan><tspan class="chart-price-indicator"></tspan> -</tspan>
+							<tspan x="2177px" y="67.5%">- <tspan class="chart-price-indicator-null"></tspan><tspan class="chart-price-indicator"></tspan> -</tspan>
+							<tspan x="2177px" y="85%">- <tspan class="chart-price-indicator-null"></tspan><tspan class="chart-price-indicator"></tspan> -</tspan>
+							<!-- <tspan x="2177px" y="80%">- <tspan class="chart-price-indicator-null">0.0000</tspan><tspan class="chart-price-indicator"></tspan> -</tspan> -->
+							<!-- <tspan x="2177px" y="90%">- <tspan class="chart-price-indicator-null">0.0000</tspan><tspan class="chart-price-indicator"></tspan> -</tspan> -->
+						</text>
+						<line id="chart-crosshair-x" class="crosshair-line" x1="0%" x2="2160px" y1="-1" y2="-1"></line>
+						<line id="chart-crosshair-y" class="crosshair-line" y1="0px" y2="100%" style=" display: block;" x1="-1" x2="-1"></line>
+						<line id="chart-local-crosshair-y" class="crosshair-line" y1="0px" y2="100%" style=" transform: translateX(1876.5px);" x1="-1" x2="-1"></line>
+						<rect id="price-chart-info-bar" x="0px" y="-1px"></rect>
+<!-- 						<text id="price-chart-24h-info">
+							<tspan x="1645px" y="13px">24h Low:<tspan id="price-chart-24h-info-low" x="1725px">0.00773000</tspan></tspan>
+							<tspan x="1645px" y="28px">24h High:<tspan id="price-chart-24h-info-high" x="1725px">0.00761000</tspan></tspan>
+							<tspan x="1840px" y="15.5px">24h Ch.:<tspan id="price-chart-24h-info-change" x="1905px">0.00</tspan></tspan>
+							<tspan x="2000px" y="13px">24h GV:<tspan id="price-chart-24h-info-gv" x="2075px">109.32304000</tspan></tspan>
+							<tspan x="2000px" y="28px">24h LV:<tspan id="price-chart-24h-info-lv" x="2075px">0.10548241</tspan></tspan>
+						</text>
+						<text id="price-chart-ticker-info">
+							<tspan x="1670px" y="13px">Low:<tspan x="1725px" id="price-chart-ticker-info-low">0.00605000</tspan></tspan>
+							<tspan x="1670px" y="28px">High:<tspan x="1725px" id="price-chart-ticker-info-high">0.00605000</tspan></tspan>
+							<tspan x="1840px" y="13px">Open:<tspan x="1905px" id="price-chart-ticker-info-open">0.00605000</tspan></tspan>
+							<tspan x="1840px" y="28px">Close:<tspan x="1905px" id="price-chart-ticker-info-close">0.00605000</tspan></tspan>
+							<tspan x="2025px" y="13px">GV:<tspan x="2075px" id="price-chart-ticker-info-gv">127.80006000</tspan></tspan>
+							<tspan x="2025px" y="28px">LV:<tspan x="2075px" id="price-chart-ticker-info-lv">0.10999999</tspan></tspan>
+						</text> -->
+						<g id="price-chart-crosshair-info">
+							<rect id="price-chart-crosshair-info-price-rect" x="2160px" y="129px" width="90px" height="20px" style="fill: #444"></rect>
+							<text style="fill: #ffffff;font-family: 'Roboto Mono', consolas, mono;font-size:10px;">
+								<tspan id="price-chart-crosshair-info-price-text" x="2165px" y="143.5px">- <tspan id="price-chart-crosshair-info-price-null"></tspan><tspan id="price-chart-crosshair-info-price" style="fill: #ffffff;">0.00615012</tspan> -</tspan>
+							</text>
+							<rect id="price-chart-local-crosshair-price-rect" x="1700.5" y="177.4357793103448" width="100px" height="20px" style="fill: #444;display: block;"></rect>
+							<text style="fill: #ffffff;font-family: 'Roboto Mono', consolas, mono;font-size:10px;">
+								<tspan id="price-chart-local-crosshair-price-text" x="1710.5" y="191.4357793103448" style="display: block;">- <tspan id="price-chart-local-crosshair-price-null"></tspan><tspan id="price-chart-local-crosshair-price" style="fill: #ffffff;">0.00602732</tspan> -</tspan>
+							</text>
+						</g>
+					</svg>
+					<div id="price-chart-mouse-zoom-wrapper">
+						<div id="price-chart-mouse-zoom">
+							<div id="price-chart-mouse-zoom-plus" class="select-none">
+								+
+							</div>
+							<div id="price-chart-mouse-zoom-minus" class="select-none">
+								-
+							</div>
+						</div>
+					</div>
+					<svg xmlns="http://www.w3.org/2000/svg" id="volume-chart">
+						<!-- <g id="volume-chart-background-lines"></g> -->
+						<g id="global-volume-chart" transform="translate(0, 0)"></g>
+						<g id="local-volume-chart" transform="translate(0, 0)"></g>
+<!-- 						<text x="2000px" y="0%" class="chart-volume-indicators">
+							<tspan x="2177px" y="40%" class="chart-volume-indicator">-</tspan>
+						</text> -->
+						<!-- <line id="volume-chart-crosshair-y" class="crosshair-line" y1="0%" y2="100%" style=" display: block;" x1="-1" x2="-1"></line>
+						<line id="volume-chart-local-crosshair-y" class="crosshair-line" y1="0%" y2="100%" style=" transform: translateX(1876.5px);" x1="-1" x2="-1"></line> -->
+					</svg>
+					<svg xmlns="http://www.w3.org/2000/svg" id="chart-timestamps-svg">
+						<text x="2000px" y="0%" id="chart-timestamps" transform="translate(0, 0)"></text>
+						<rect id="price-chart-crosshair-info-timestamp-rect" x="1610" y="9px" width="100px"
+						height="15px" style="fill: #444; visibility: hidden;"></rect>
+						<text style="fill: rgb(255,255,255); font-family: &quot;Roboto Mono&quot;, consolas, mono; font-size: 10px; visibility: hidden;">
+							<tspan id="price-chart-crosshair-info-timestamp" x="1723.5" y="20px"></tspan>
+						</text>
+					</svg>
+				</div>
+			</div>
+			<div id="trading-area-wrapper">
+				<div id="trading-area-toggle-menu">
+					<div class="toggle-buttons trading-area-toggle-button toggle-buttons-toggled select-none">
+						<span>Order Book</span>
+					</div>
+					<div class="toggle-buttons trading-area-toggle-button right-bottom-module-toggle select-none">
+						<span>Trade History</span>
+					</div>
+					<div class="toggle-buttons trading-area-toggle-button right-bottom-module-toggle select-none">
+						<span>My Trade History</span>
+					</div>
+					<div class="toggle-buttons trading-area-toggle-button toggle-buttons-last-in-row right-bottom-module-toggle select-none">
+						<span>My Open Orders</span>
+					</div>
+				</div>
+				<div id="trade-orders-load-overlay" class="load-overlay">
+					<div class='uil-ring-css' style='transform:scale(0.17);'><div></div></div>
+				</div>
+				<div class="trading-area-toggle-module trading-area-toggle-module-toggled">
+					<div id="trade-menu">
+						<div id="trade-menu-buy">
+							<div id="buy-balance" class="cursor-pointer-select-none">
+								<span>Balance: <span id="buy-balance-amount">0</span> <span id="buy-balance-currency"></span></span>
+							</div>
+							<div class="trade-menu-bottom-div">
+								<input id="buy-price-input" class="trade-input-field" type="text" placeholder="Price" title="Price" maxlength="15">
+								<input id="buy-amount-input" class="trade-input-field" type="text" placeholder="Amount", title="Amount" maxlength="15">
+								<input id="buy-total-input" class="trade-input-field" type="text" placeholder="Total" title="Total" maxlength="15">
+								<div id="buy-button" class="cursor-default select-none">
+									<span>Buy LTC</span>
+								</div>
+							</div>
+						</div>
+						<div id="trade-menu-sell">
+							<div id="sell-balance" class="cursor-pointer-select-none">
+								<span>Balance: <span id="sell-balance-amount">0</span> <span id="sell-balance-currency"></span></span>
+							</div>
+							<div class="trade-menu-bottom-div">
+								<input id="sell-price-input" class="trade-input-field" type="text" placeholder="Price" title="Price" maxlength="15">
+								<input id="sell-amount-input" class="trade-input-field" type="text" placeholder="Amount" title="Amount" maxlength="15">
+								<input id="sell-total-input" class="trade-input-field" type="text" placeholder="Total" title="Total" maxlength="15">
+								<div id="sell-button" class="cursor-default select-none">
+									<span>Sell LTC</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div id="trade-orders">
+						<div class="wrapper">
+							<div id="sell-orders" class="scrollable">
+									<div id="sell-orders-index" class="gray-indicator-text">
+										<span class="price-index trade-row-element">Price</span>
+										<span class="amount-primary-index trade-row-element">LTC</span>
+										<span class="amount-secondary-index trade-row-element">BTC</span>
+										<span class="total-index trade-row-element">Total</span>
+									</div>
+									<div class="sell-order-row trade-order-row ">
+										<span class="price trade-row-element"></span>
+										<span class="amount-primary trade-row-element"></span>
+										<span class="amount-secondary trade-row-element"></span>
+										<span class="total trade-row-element"></span>
+									</div>
+							</div>
+							<div id="sell-orders-type-label" class="orders-type-label">SELL ORDERS</div>
+						</div>
+						<div class="wrapper">
+							<div id="buy-orders" class="scrollable">
+								<div id="buy-orders-index" class="gray-indicator-text">
+									<span class="price-index trade-row-element">Price</span>
+									<span class="amount-primary-index trade-row-element">LTC</span>
+									<span class="amount-secondary-index trade-row-element">BTC</span>
+									<span class="total-index trade-row-element">Total</span>
+								</div>
+								<div class="buy-order-row trade-order-row ">
+										<span class="price trade-row-element"></span>
+										<span class="amount-primary trade-row-element"></span>
+										<span class="amount-secondary trade-row-element"></span>
+										<span class="total trade-row-element"></span>
+								</div>
+							</div>
+							<div id="buy-orders-type-label" class="orders-type-label">BUY ORDERS</div>
+						</div>
+					</div>
+				</div>
+				<div id="trade-history" class="trading-area-toggle-module">
+					<div id="trade-history-orders" class="scrollable">
+						<div id="trade-history-orders-index" class="trade-history-index-row gray-indicator-text">
+							<span class="trade-history-row-element traded-timestamp">YY/MM/DD</span>
+							<span class="trade-history-row-element traded-price">Price</span>
+							<span class="trade-history-row-element traded-amount-primary">LTC</span>
+							<span class="trade-history-row-element traded-amount-secondary">BTC</span>
+						</div>
+						<div class="trade-history-row">
+							<span class="trade-history-row-element traded-timestamp gray-indicator-text">16/03/02/21:38</span>
+							<span class="trade-history-row-element traded-price">3.39814231</span>
+							<span class="trade-history-row-element traded-amount-primary">0.9619</span>
+							<span class="trade-history-row-element traded-amount-secondary">3.1473</span>
+						</div>
+					</div>
+				</div>
+				<div id="my-trade-history" class="trading-area-toggle-module">
+					<div id="my-trade-history-orders" class="scrollable">
+						<div id="my-trade-history-orders-index" class="trade-history-index-row gray-indicator-text">
+							<span class="trade-history-row-element traded-timestamp">YY/MM/DD</span>
+							<span class="trade-history-row-element traded-price">Price</span>
+							<span class="trade-history-row-element traded-amount-primary">LTC</span>
+							<span class="trade-history-row-element traded-amount-secondary">BTC</span>
+						</div>
+						<div class="my-trade-history-row" style="display:none;">
+							<span class="trade-history-row-element traded-timestamp gray-indicator-text">16-04-18 12:56</span>
+							<span class="trade-history-row-element traded-price">0.00765000</span>
+							<span class="trade-history-row-element traded-amount-primary">0.1200</span>
+							<span class="trade-history-row-element traded-amount-secondary">0.0009</span>
+						</div>
+					</div>
+				</div>
+				<div id="trade-my-open-orders" class="trading-area-toggle-module">
+					<span id="trade-my-open-orders-no-orders-message">You have no open orders on this market</span>
+					<div class="trade-my-open-orders-row" style="display: none;">
+						<div class="trade-my-open-order-row-top-wrapper">
+							<span class="trade-my-open-orders-cancel select-none trade-my-open-order-row-element">Cancel</span>
+							<span class="trade-my-open-orders-type trade-my-open-order-row-element"></span>
+							<span class="trade-my-open-orders-price trade-my-open-order-row-element"></span>
+							<span class="trade-my-open-orders-primary-amount trade-my-open-order-row-element"></span>
+							<span class="trade-my-open-orders-secondary-amount trade-my-open-order-row-element"></span>
+							<span class="trade-my-open-orders-date trade-my-open-order-row-element"></span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="order-popup-page-wrapper" class="popup-page-wrapper">
+	<div id="order-popup-page">
+		<div class="title">New Order</div>
+		<div id="order-popup-page-load-overlay" class="load-overlay">
+			<div class='uil-ring-css' style='transform:scale(0.17);'><div></div></div>
+		</div>
+		<div id="order-popup-page-top-wrapper">
+			<div id="order-price-amount-wrapper" class="order-row-outer-wrapper">
+				<div id="order-price-wrapper" class="order-row-wrapper">
+					<span>Price:</span>
+					<span id="order-price">0.00000001 BTC</span>
+				</div>
+				<div id="order-amount-wrapper" class="order-row-wrapper">
+					<span>Amount:</span>
+					<span id="order-amount">100000000.00000000 MRC</span>
+				</div>
+			</div>
+			<div id="order-total-fee-wrapper" class="order-row-outer-wrapper">
+				<div id="order-total-wrapper" class="order-row-wrapper">
+					<span>Total:</span>
+					<span id="order-total">1.00000000 BTC</span>
+				</div>
+				<div id="order-fee-wrapper" class="order-row-wrapper">
+					<span>Fee:</span>
+					<span id="order-fee">0.002 BTC (0.2%)</span>
+				</div>
+			</div>
+			<div id="order-type-pair-wrapper" class="order-row-outer-wrapper">
+				<div id="order-type-wrapper" class="order-row-wrapper">
+					<span>Type:</span>
+					<span id="order-type">Sell</span>
+				</div>
+				<div id="order-pair-wrapper" class="order-row-wrapper">
+					<span>Pair:</span>
+					<span id="order-pair">MRC/BTC</span>
+				</div>
+			</div>
+		</div>
+		<span id="order-error-message" class="red-notification-text"></span>
+		<span id="order-success-message" class="green-notification-text">Order opened successfully</span>
+		<div id="order-popup-page-confirm-button" class="login-popup-page-button select-none">
+			Confirm
+		</div>
+		<div id="order-popup-page-cancel-button" class="select-none">
+			Cancel
+		</div>
+		<div id="order-popup-page-OK-button" class="login-popup-page-button select-none">
+			OK
+		</div>
+	</div>
+</div>
+<div id="coin-info-popup-page-wrapper" class="popup-page-wrapper">
+	<div id="coin-info-popup-page">
+		<div class="title">Coin Info</div>
+		<div id="coin-info-popup-page-close-button" class="popup-page-close-button cursor-pointer-select-none">
+			<span>x</span>
+		</div>
+		<div id="coin-info-popup-page-coin-info-div">
+			<img id="price-chart-coin-label-logo" src="CSS/img/coins/LTC.png">
+			<div class="coin-info-popup-page-coin-info-row">
+				<span>Name: </span><span id="coin-info-name"></span>
+			</div>
+			<div class="coin-info-popup-page-coin-info-row">
+				<span>Website: </span><span id="coin-info-website"></span>
+			</div>
+			<div class="coin-info-popup-page-coin-info-row">
+				<span>Bitcointalk Thread: </span><span id="coin-info-bitcointalk"></span>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="alcurex-info-popup-page-wrapper" class="popup-page-wrapper">
+	<div id="alcurex-info-popup-page">
+		<div id="alcurex-info-popup-page-menu">
+			<div class="alcurex-info-popup-page-menu-button select-none">
+				<span>About Us</span>
+			</div>
+			<div class="alcurex-info-popup-page-menu-button select-none">
+				<span>alcurEX Shares</span>
+			</div>
+			<div class="alcurex-info-popup-page-menu-button select-none">
+				<span>Remote Markets</span>
+			</div>
+			<div class="alcurex-info-popup-page-menu-button select-none">
+				<span>Terms & Conditions</span>
+			</div>
+			<div id="alcurex-info-popup-page-close-button" class="popup-page-close-button select-none">
+				<span>x</span>
+			</div>
+		</div>
+		<div id="alcurex-info-popup-page-about-us" class="alcurex-info-popup-page-switch-module">
+			<div class="alcurex-info-popup-page-text-wrapper scrollable">
+<!-- 				<div class="alcurex-info-popup-page-text-div">
+					<h3 class="alcurex-info-popup-page-h3">Overview</h3>
+					<p class="alcurex-info-popup-page-p">
+						ALCUREX makes secure, fast and convenient trading possible for new cryptocurrencies. 
+							ALCUREX offers an expanding variety of promising alternative cryptocurrencies on different Markets for trading. 
+							Promising new cryptocurrencies will be added as often as possible.
+					</p>
+				</div> -->
+<div class="alcurex-info-popup-page-text-div">
+					<h3 class="alcurex-info-popup-page-h3">Company</h3>
+					<p class="p-body-text" style="text-align:center;">
+						ALCUREX is an online cryptocurrency exchange based in Finland and Belize.<br>
+						Business ID: 2612007-8 FINLAND<br>
+						Business ID: 162,363 BELIZE<br>
+						Contact: support@alcurex.info | office@alcurex.info
+					</p>
+				</div>
+			</div>
+		</div>
+		<div id="alcurex-info-popup-page-alcurex-shares" class="alcurex-info-popup-page-switch-module">
+			<div class="alcurex-info-popup-page-text-wrapper scrollable">
+				<div class="alcurex-info-popup-page-text-div">
+					<h3 class="alcurex-info-popup-page-h3">Statistics</h3>
+					<ul class="p-body-text alcurex-info-popup-page-ul">
+						<li>ALCUREX Oy. - Business ID: 2612007-8 FINLAND</li>
+						<li>ALCUREX Ltd - Business ID: 162,363 BELIZE</li>
+						<br>
+						<li>Fee shares: (50% of the total shares)</li>
+						<li>Total: 141,960</li>
+						<li>Held publicly: 141,960</li>
+					</ul>
+				</div>
+				<div class="alcurex-info-popup-page-text-div">
+					<h3 class="alcurex-info-popup-page-h3">Key Points</h3>
+					<ul class="p-body-text alcurex-info-popup-page-ul">
+						
+						<li><span class="bold-grey-text">50% Fee profits: </span>alcurEX share owners collect 50% of the alcurEX exchange trading fee profits.</li>
+						<li><span class="bold-grey-text">Paid automatically: </span>alcurEX share dividends are paid automatically on each Monday to the shareholders' accounts.</li>
+						<li><span class="bold-grey-text">Traded on the BTC market: </span>
+							<a id="alcurex-btc-market-link" class="small-link-text">https://alcurex.com/#ALCUREX-BTC</a></li>
+					</ul>
+				</div>
+
+				<div class="alcurex-info-popup-page-text-div">
+					<h3 class="alcurex-info-popup-page-h3">Profit</h3>
+					<p class="p-body-text">
+						50% Fee Profit:<br>
+						alcurex ltd collects trading fees of 0.4% on each market. (0.2% on each side : buy / sell).<br>
+						50% the collected profit will be withheld by the exchange and 50% will be paid to fee share owners as dividends.<br>
+						<br>
+						The profit calculation formula for share owners is: (profit - server costs) * 50% / No. of shares held publicly * your shares.<br>
+						<br>
+						Calculation Example:<br>
+						If a share owner has 5,000 shares and the market daily trade volume is 200BTC:<br>
+						Weekly volume = 7 * 200 = 1400<br>
+						Weekly server costs = 0.056
+						Trading fee = 0.4% = 0.004
+						Share holders' earnings = 50% = 0.5
+						Weekly total fee profit = 0.004 * 1400 - 0.056 = 5.544<br>
+						Your weekly profits = 5.544 * 0.5 / 141,960 * 5000 = 0.097633<br>
+						Weekly profit: 0.0976 BTC<br>
+						Monthly profit: 0.4882 BTC<br>
+						Yearly profit: 5.0770 BTC<br>
+						<i>*Please note this example assumes a stable daily volume of 200 BTC and weekly server costs of 0.056 BTC.</i>
+					</p>
+				</div>
+				<div class="alcurex-info-popup-page-text-div">
+					<h3 class="alcurex-info-popup-page-h3">Dividend Payments</h3>
+					<p class="p-body-text">
+						Share Dividend Payment rules:<br>
+						Share dividends are paid out to share holders every Monday at 20:00 UTC.<br>
+						Shares held on account and shares placed on sell orders will both collect profits.
+					</p>
+				</div>
+				<div class="alcurex-info-popup-page-text-div">
+					<h3 class="alcurex-info-popup-page-h3">Details</h3>
+					<p class="p-body-text">
+						ALCUREX Fee shares can be claimed for real company shares (alcurex Oy) at a rate of 1:10 (10 virtual shares equals one real share)<br>
+						Real shares have no fee profit rights, but will legally own part of the company with all rights, divided with 28,392 shares.<br>
+						Real shares can not be switched back to fee shares and legal share holders need provide identification. (For registering shares on company sharebook.)<br>
+						The minimum share amount for registering is 100 actual shares. (1000 virtual shares)<br>
+						(Registration is free excluding possible registration fees by Finnish government. Currently there are no fees.)<br>
+						We reserve the rights to make time limited offers during which fee share owners need to decide
+						whether they want to claim their fee shares for legal company share or continue holding virtual shares indefinitely. <br>
+							<br>
+						The share holder is responsible for any taxes or legal fees associated with the country they reside in. 
+					</p>
+				</div>
+			</div>
+		</div>
+		<div id="alcurex-info-popup-page-global-markets" class="alcurex-info-popup-page-switch-module">
+			<div class="alcurex-info-popup-page-text-wrapper scrollable">
+				<div class="alcurex-info-popup-page-text-div">
+					<h3 class="alcurex-info-popup-page-h3">Multiple exchanges - One account</h3>
+					<p class="p-body-text">
+					<img src="/CSS/img/btc-e.png"> &nbsp;<img src="/CSS/img/kraken.png"> &nbsp;<img src="/CSS/img/bittrex.png">
+						<br>Remote markets allow trading on other cryptocurrency exchanges through alcurex from a single account.<br>
+						<span class="bold-grey-text">Two-way communication between exchanges</span><br>
+						<span class="inline-text">- The order list and trade history are fetched from the remote exchange.</span><br>
+						<span class="inline-text">- Placing an order on alcurex opens that same order on the remote exchange.</span><br>
+						<span class="inline-text">- When the order is filled (partially or fully) it is updated on alcurex as well.</span><br>
+						<span class="bold-grey-text">0% extra trading fees</span><br>
+						<span class="inline-text">- There are currently 0% extra trading fees on remote markets</span><br>
+						<span class="inline-text">- The trading fees imposed by the remote exchange still apply (approx. 0.2%)</span><br>
+						<span class="bold-grey-text">Highest volume cryptocurrency exchanges</span><br>
+						<span class="inline-text">- BTC-E</span><br>
+						<span class="inline-text">- Bittrex</span><br>
+						<span class="inline-text">- (More being added)</span><br>
+						<span class="bold-grey-text">BTC and USD markets</span><br>
+						<span class="inline-text">- BTC/USD (BTC-E)</span><br>
+						<span class="inline-text">- ETH/USD (BTC-E)</span><br>
+						<span class="inline-text">- LTC/USD (BTC-E)</span><br>
+						<span class="inline-text">- ETH/BTC (BTC-E)</span><br>
+						<span class="inline-text">- LTC/BTC (BTC-E)</span><br>
+						<span class="inline-text">- STEEM/BTC (Bittrex)</span><br>
+						<span class="inline-text">- WAVES/BTC (Bittrex)</span><br>
+						<span class="inline-text">- DOGE/BTC (Bittrex)</span><br>
+						<span class="inline-text">- (More being added)</span><br>
+					</p>
+				</div>
+			</div>
+		</div>
+		<div id="alcurex-info-popup-page-terms" class="alcurex-info-popup-page-switch-module">
+			<div class="alcurex-info-popup-page-text-wrapper scrollable">
+				<div class="alcurex-info-popup-page-text-div p-body-text">
+					<h4>Introduction</h4>
+
+					<p>alcurEX provides an online tool that allows users to freely trade Bitcoins and number of different cryptocurrencies worldwide. The Terms of Use described here apply to all transactions and activities engaged by the users of this website, data gathered, private messeges, online chat between the users and support alcurEX. </p>
+					<h4>Changes to Website</h4>
+
+					<p>alcurEX will always attempt to keep its users informed of any changes to the website. However, alcurEX may terminate, change, suspend or discontinue any aspect of this website, including the availability of features of the site, at any time. alcurEX may also impose limits on certain features and services or restrict your access to part or the entire website without prior notice or liability. </p>
+
+					<h4>Proprietary Rights</h4>
+
+					<p>All contents of the alcurEX website, including, but not limited to, text, names, data, logos, buttons, icons, code, methods, techniques, models, graphics and the underlying software (the "Components"), are proprietary of alcurEX and are protected by the patent, copyright, trademark. Nothing contained in this website shall be used in any form unless expressly stated by alcurEX. </p>
+
+					<h4>Privacy</h4>
+
+					<p>alcurEX will not share, publish, or sell any user data contained in its databases. However, alcurEX may be requested at any time to share trade data including, but not restricted to, emails, user transactions, and trade data by government authorities. alcurEX will not deny such requests and cannot be held responsible for the leakage of information by third parties whether the action was performed intentionally or not. We are prohibited from using multiple accounts. </p>
+
+					<h4>Fees and Comissions</h4>
+
+					<p>Standard trading fee is 0.2%. Some markets have no fees at all. Current trading fee is informed on trading page. Transaction costs are informed in withdraw page.</p>
+
+					<h4>Limitation of Liability</h4>
+
+
+					<p>alcurEX does not provide advice for its users on trading techniques, models, algorithms or similar. Occasionally, alcurEX may publish best practices or recommendations publicly to all its users or privately to users expressly requesting assistance. Users of this website are responsible for the outcome of their actions with their account balances. Users are also responsible for protecting access information to the Website including, but not limited to, user names, passwords, and bank account details. alcurEX is not responsible for the outcome, whether positive or negative, of any action performed by any of its users within or related to the Website. Some withdraw methods require alcurEX to use personal details of the user including, but not limited to, name, address, email, phone number, and bank account number for which alcurEX has the capability to send and receive encrypted emails. The usage of encryption is left entirely at the discretion of the user. </p>
+
+					<h4>Terms of Use</h4>
+
+					<p>By opening an account at alcurEX you agree to the Terms of Use stated in this page. alcurEX reserves the right, at its discretion, to add, remove, or modify portions of these Terms of Agreement at any time. Your continued use of alcurEX following the implementation of changes to these Terms of Agreement implies that you accept such changes.
+					Please note the USD or EURO funds we may reqest identity verify. For any cryptocurrency withdraws no need identity verification.
+					</p>
+					<br>
+					In the event of an error, whether via Services, in an Order confirmation, in processing of Clients Trade, or otherwise, alcurEX reserves the right to correct such an error and revise Clients Trade accordingly (including charging the correct price) or to cancel the Trade and refund any amount received.
+					<br>
+					alcurEX shall not be liable for (1) any inaccuracy, error, delay in, or omission of any information, or the transmission or delivery of information; any loss or damage arising from any event beyond alcurEX reasonable control, including but not limited to flood, extraordinary weather conditions, earthquake, or other act of God, fire, war, insurrection, riot, labour dispute, accident, action of government, illegal or fail action of third party partners, communications, power failure, or equipment or software malfunction or any other cause beyond alcurEX reasonable control.
+
+					Client may not assign or transfer any of Clients rights or obligations under these Terms without prior written consent from alcurEX. alcurEX may assign or transfer any or all of its rights under these Terms, in whole or in part, without obtaining Client consent or approval.
+					<br><br>
+					Risk Warning
+					<br><i>
+					Before deciding to participate in the cryptocurrency market, you should carefully consider your investment objectives, level of experience and risk appetite. Most importantly, do not invest money you cannot afford to lose.<br>
+					<br>
+					There is considerable exposure to risk in any off-exchange transaction, including, but not limited to, leverage, creditworthiness, limited regulatory protection and market volatility that may substantially affect the price, or liquidity of a currency or cryptocurrency.<br>
+					<br>
+					Because Nature of cryptocurrency, it can have technical security issues, it can lose all value in any time, or your transactions may loss example if cryptocurrency network is forked, wallet not store your address correctly or wallet code have security issue.<bt>
+					Usually cryptocurrency delelopers can fix that kind of technical issues, but in those cases, we can't be responsible for any resulting losses.
+					<br>
+					<br>
+					More over, the leveraged cryptocurrency trading means that any market movement will have an equally proportional effect on your trading investment. This may work against you as well as for you.<br>
+					<br>
+					There are risks associated with utilizing an Internet-based trading system including, but not limited to, the failure of hardware, software, and Internet connection.<br> alcurex.org is not responsible for communication failures or delays when trading via the Internet.<br>
+					alcurex.org employs back up systems and contingency plans to minimize the possibility of system failure.<br>
+					<br>
+					Any opinions, news, research, analyses, prices, or other information contained on this website are provided as general market commentary, and do not constitute investment advice.<br> 
+					alcurex.org is not liable for any loss or damage, including without limitation, any loss of profit, which may arise directly or indirectly from use of or reliance on such information. 
+					<br>
+					alcurex.org has taken reasonable measures to ensure the accuracy of the information on the website. The content on this website is subject to change at any time without notice.<br>
+					<br>
+
+					<h4>Taxation and common warning notice</h4>
+					<p>Invest at your own risk. alcurEX will do its best to investigate project's legality and their trust level to
+					help prevent scammers, but you are accounted for your own decision to participate.<br>
+					If project property is held by alcurEX, then alcurEX will be responsible to keep it safe for the customers. (Protection level FULL)<br>
+					For other level projects, alcurEX cannot guarantee released property or customers legal rights to the company/project.<br>
+					<br>
+					<br>
+					</p><h4>Requirement of Identification with alcurEX</h4><br>
+					Trading, deposing and withdrawing virtual shares or virtual currencies on alcurEX at this moment do not
+					require user identification.<br>
+					Customers who deposit/withdraw fiat (money) over the sum of 2000(USD/EURO) will be required to
+					provide identity information. <br>
+					If a user wants to register company shares (Alcurex) to the company share book he will be required to provide
+					identity information. <br>
+					<br>
+
+					<br>
+					<p>Common warning about virtual currency and property</p>
+					Projects will be listed on microStock Market as long as this service is offered.<br>
+					Please do your own extensive researches before you decide to invest any amount.<br>
+					Most importantly, never invest more money than you can afford to lose.<br>
+					If you don't understand the project or the property where you are planning to invest, it might be better
+					you do not invest.<br> <br>
+					<p>Taxes</p>
+					Property held and owned by alcurEX = alcurEX will pay taxes as legal property owner following Finland
+					taxation law.<br>
+					Identified company property held on alcurEX = Company will pay property and profit taxes following
+					own Country taxation law.<br>
+					Investors are responsible to take appropriate steps to ensure they are legally complying and obeying
+					with their own country, countries, or the current residing country's taxation laws themselves.
+					<br>
+					To protect investor's property, if a project is suspected of scam, alcurEX will lock Project Coordinator's 
+					account and will stop that project's trades until the project's status is investigated with customers and if 
+					needed, with the local police<br>
+					<br>
+					Help us keep micro Stock Market clean and a trusted place for business. If you have any information
+					about a project running illegally or with intention to not deliver, please contact us at office@alcurex.info
+					immediately.<br>
+					<br>
+					<i>Note that only legal projects are allowed to run on our service.</i><br><br>
+					alcurEX reserves the right to accept or deny any requests to publishing project.<br>
+					alcurEX reserves the right to terminate already accepted projects if they break the rules.
+					<p></p>
+					<h4>Coin request service</h4>
+					alcurEX reserves the right to accept or deny any requests to publishing coin.<br>
+					alcurEX reserves the right to terminate already accepted coins if they break the alcurEX rules.<br>
+					<p></p>
+					Please, use alcurex.com site only if you can accept our terms.<br>
+					Happy trading.<br><br></bt></i>
+					ALCUREX OY / ALCUREX LTD 2016
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="two-fa-popup-page-wrapper" class="popup-page-wrapper">
+	<div id="two-fa-popup-page">
+		<div id="two-fa-popup-page-load-overlay" class="load-overlay">
+			<div class='uil-ring-css' style='transform:scale(0.17);'><div></div></div>
+		</div>
+		<div class="two-fa-popup-page-header">Enable Google Authenticator 2FA</div>
+		<img  class="G2FA-image" id="two-fa-qrcode-image"></img>
+		<div id="two-fa-qrcode-message"></div>
+		<div id="two-fa-qr-enabling-message">
+			<p>Save your secret key: <span id="two-fa-code"></span> in safe place.</p>
+			<p>You will need it if you lost your phone or want to disable 2fa.</p>
+			<p>Note! This is only time you will see this code visible!</p>
+			<p>Google 2fa can disable only with sending secret key to support@alcurex.info with using your registered email account.</p>
+		</div>
+		<div id="two-fa-popup-page-enable-button" class="login-popup-page-button select-none">
+			Enable
+		</div>
+		<div id="two-fa-popup-page-cancel-button" class="select-none">
+			Cancel
+		</div>
+		<div id="two-fa-popup-page-OK-button" class="login-popup-page-button select-none">
+			OK
+		</div>
+	</div>
+</div>
+
+<div id="withdraw-popup-page-wrapper" class="popup-page-wrapper">
+	<div id="withdraw-popup-page">
+		<div class="title">New Withdraw</div>
+		<div id="withdraw-popup-page-load-overlay" class="load-overlay">
+			<div class='uil-ring-css' style='transform:scale(0.17);'><div></div></div>
+		</div>
+		<div id="withdraw-popup-page-top-wrapper">
+			<div id="withdraw-price-amount-wrapper" class="withdraw-row-outer-wrapper">
+				<div id="withdraw-amount1-wrapper" class="withdraw-row-wrapper">
+					<span>Amount:</span>
+					<span id="withdraw-amount1">10000000.00000000</span>
+				</div>
+				<div id="withdraw-amount-wrapper" class="withdraw-row-wrapper">
+					<span>Coin:</span>
+					<span id="withdraw-coin">MRC</span>
+				</div>
+			</div>
+			<div id="withdraw-amount-fee-wrapper" class="withdraw-row-outer-wrapper">
+				<div id="withdraw-amount2-wrapper" class="withdraw-row-wrapper">
+					<span>Sent amount:</span>
+					<span id="withdraw-amount2">9999999.99900000</span>
+				</div>
+				<div id="withdraw-fee-wrapper" class="withdraw-row-wrapper">
+					<span>Fee:</span>
+					<span id="withdraw-fee">0.001</span>
+				</div>
+			</div>
+			<div id="withdraw-address-wrapper" class="withdraw-row-outer-wrapper">
+				<span>Destination Address:</span>
+				<span id="withdraw-address">mNBHyY8SAJ9cUDNkt2vuATu4sAVsnmB8qG</span>
+			</div>
+		</div>
+		<div id="withdraw-g2fa-wrapper">
+			<span>Verify with Google authenticator PIN:</span>
+			<input type="text" id="withdraw-2FA-input" placeholder="2fa-code" maxlength="6">
+		</div>
+		<span id="withdraw-error-message" class="red-notification-text"></span>
+		<span id="withdraw-success-message" class="green-notification-text"></span>
+		<div id="withdraw-popup-page-2fa-verify-button" class="login-popup-page-button select-none">
+			Verify
+		</div>
+		<div id="withdraw-popup-page-confirm-button" class="login-popup-page-button select-none">
+			Confirm
+		</div>
+		<div id="withdraw-popup-page-cancel-button" class="select-none">
+			Cancel
+		</div>
+		<div id="withdraw-popup-page-OK-button" class="login-popup-page-button select-none">
+			OK
+		</div>
+	</div>
+</div>
+<div id="profile-popup-page-wrapper" class="popup-page-wrapper">
+	<div id="profile-popup-page">
+		<div id="profile-popup-page-menu">
+			<div class="profile-popup-page-menu-button select-none">
+				<span>Deposit/Withdraw</span>
+			</div>
+			<div class="profile-popup-page-menu-button select-none">
+				<span>My Open Orders</span>
+			</div>
+			<div id="profile-popup-page-menu-history-data" class="profile-popup-page-menu-button select-none">
+				<span>History Data</span>
+			</div>
+			<div class="profile-popup-page-menu-button select-none">
+				<span>Settings</span>
+			</div>
+			<div id="profile-popup-page-close-button" class="popup-page-close-button select-none">
+				<span>x</span>
+			</div>
+		</div>
+		<div id="profile-popup-page-deposit-withdraw" class="profile-popup-page-switch-module">
+			<div id="profile-popup-page-deposit-withdraw-load-overlay" class="load-overlay">
+				<div class='uil-ring-css' style='transform:scale(0.17);'><div></div></div>
+			</div>
+			<div id="profile-popup-page-deposit-withdraw-wrapper" class="scrollable">
+				<div id="profile-popup-page-deposit-withdraw-io-wrapper">
+<!-- 					<div class="profile-popup-page-deposit-withdraw-io-row">
+						<div class="profile-popup-page-deposit-withdraw-io-row-top">
+							<span class="profile-popup-page-deposit-withdraw-io-row-element profile-popup-page-deposit-withdraw-io-withdraw-text">Withdraw</span>
+							<span class="profile-popup-page-deposit-withdraw-io-row-element">1.00000000</span>
+							<span class="profile-popup-page-deposit-withdraw-io-row-element">BTC</span>
+							<span class="profile-popup-page-deposit-withdraw-io-row-element">Pending email confirmation</span>
+						</div>
+						<div class="profile-popup-page-deposit-withdraw-io-row-address">
+							<span class="profile-popup-page-deposit-withdraw-io-row-address-text">1BMSnNmYUD5aaHThrkLRjJVyZJttpCCx12</span>
+						</div>
+						<div class="profile-popup-page-deposit-withdraw-io-cancel-button">Cancel</div>
+					</div> -->
+					<!-- template -->
+					<div class="profile-popup-page-deposit-withdraw-io-row" style="display:none;">
+						<div class="profile-popup-page-deposit-withdraw-io-row-top">
+							<span class="profile-popup-page-deposit-withdraw-io-row-element"></span>
+							<span class="profile-popup-page-deposit-withdraw-io-row-element"></span>
+							<span class="profile-popup-page-deposit-withdraw-io-row-element"></span>
+							<span class="profile-popup-page-deposit-withdraw-io-row-element"></span>
+						</div>
+						<div class="profile-popup-page-deposit-withdraw-io-row-address">
+							<span class="profile-popup-page-deposit-withdraw-io-row-address-text"></span>
+						</div>
+						<div class="profile-popup-page-deposit-withdraw-io-cancel-button">Cancel</div>
+					</div>
+				</div>
+<!-- 				<div id="profile-popup-page-deposit-withdraw-balances-wrapper">
+					<div class="profile-popup-page-deposit-withdraw-row-wrapper">
+						<div class="profile-popup-page-deposit-withdraw-row">
+							<span class="profile-popup-page-deposit-withdraw-row-balance"></span>
+							<span class="profile-popup-page-deposit-withdraw-row-coin-name"></span>
+						</div>
+						<div class="profile-popup-page-deposit-withdraw-row-addresses">
+							<div class="profile-popup-page-deposit-withdraw-row-deposit">
+								<span class="profile-popup-page-deposit-withdraw-row-deposit-address"></span>
+								<div class="profile-popup-page-deposit-withdraw-row-deposit-withdraw-address-text">Deposit Address</div>
+							</div>
+							<div class="profile-popup-page-deposit-withdraw-row-withdraw">
+								<input type="text" class="profile-popup-page-deposit-withdraw-row-withdraw-address"></input>
+								<input type="text"
+								class="profile-popup-page-deposit-withdraw-row-withdraw-amount deposit-withdraw-row-withdraw-amount1"
+								placeholder="Withdraw amount"></input>
+								<input type="text"
+								class="profile-popup-page-deposit-withdraw-row-withdraw-amount deposit-withdraw-row-withdraw-amount2"
+								placeholder="Sent amount (Fee 0.001)"></input>
+								<div class="profile-popup-page-deposit-withdraw-row-deposit-withdraw-button blue-button select-none">Withdraw</div>
+							</div>
+						</div>
+					</div>
+				</div> -->
+				<div id="profile-popup-page-deposit-withdraw-balances-wrapper">
+					<div class="profile-popup-page-deposit-withdraw-row-wrapper">
+						<div class="profile-popup-page-deposit-withdraw-row">
+							<span class="profile-popup-page-deposit-withdraw-row-balance"></span>
+							<span class="profile-popup-page-deposit-withdraw-row-coin-name"></span>
+						</div>
+						<div class="profile-popup-page-deposit-withdraw-row-addresses">
+							<div class="profile-popup-page-deposit-withdraw-row-deposit">
+								<span class="profile-popup-page-deposit-withdraw-row-deposit-address"></span>
+								<div class="profile-popup-page-deposit-withdraw-row-deposit-withdraw-address-text">Deposit Address</div>
+							</div>
+							<div class="profile-popup-page-deposit-withdraw-row-withdraw">
+								<input type="text" class="profile-popup-page-deposit-withdraw-row-withdraw-address"></input>
+								<input type="text"
+								class="profile-popup-page-deposit-withdraw-row-withdraw-amount deposit-withdraw-row-withdraw-amount1"
+								placeholder="Withdraw amount"></input>
+								<input type="text"
+								class="profile-popup-page-deposit-withdraw-row-withdraw-amount deposit-withdraw-row-withdraw-amount2"
+								placeholder="Sent amount (Fee 0.001)"></input>
+								<input type="text"
+								class="profile-popup-page-deposit-withdraw-row-withdraw-amount deposit-withdraw-row-withdraw-memo"
+								placeholder="Memo"></input>
+								<div class="profile-popup-page-deposit-withdraw-row-deposit-withdraw-button red-button select-none">Withdraw</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="profile-popup-page-open-orders" class="profile-popup-page-switch-module">
+			<div id="profile-popup-page-open-orders-load-overlay" class="load-overlay">
+				<div class='uil-ring-css' style='transform:scale(0.17);'><div></div></div>
+			</div>
+			<div id="profile-my-open-orders-wrapper">
+				<span id="profile-my-open-orders-no-orders-message">You have no open orders</span>
+				<div class="profile-my-open-orders-row" style="display: none;">
+					<div class="profile-my-open-order-row-top-wrapper">
+						<span class="trade-my-open-orders-cancel select-none trade-my-open-order-row-element">Cancel</span>
+						<span class="trade-my-open-orders-type trade-my-open-order-row-element"></span>
+						<span class="trade-my-open-orders-price trade-my-open-order-row-element"></span>
+						<span class="trade-my-open-orders-primary-amount trade-my-open-order-row-element"></span>
+						<span class="trade-my-open-orders-secondary-amount trade-my-open-order-row-element"></span>
+						<span class="trade-my-open-orders-date trade-my-open-order-row-element"></span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="profile-popup-page-history-data" class="profile-popup-page-switch-module">
+			<div id="profile-popup-page-historydata-load-overlay" class="load-overlay">
+				<div class='uil-ring-css' style='transform:scale(0.17);'><div></div></div>
+			</div>
+			<div id="profile-popup-page-historydata-wrapper" class="scrollable">
+				<table id="profile-popup-page-historydata-table">
+					<tr class="profile-popup-page-historydata-table-index-row cursor-default select-none">
+						<td class="profile-popup-page-historydata-table-td">Time</td>
+						<td class="profile-popup-page-historydata-table-td">Currency</td>
+						<td class="profile-popup-page-historydata-table-td">Transaction Type</td>
+						<td class="profile-popup-page-historydata-table-td">Amount</td>
+						<td class="profile-popup-page-historydata-table-td">Balance</td>
+					</tr>
+					<tr class="profile-popup-page-historydata-table-row">
+						<td class="profile-popup-page-historydata-table-td"></td>
+						<td class="profile-popup-page-historydata-table-td"></td>
+						<td class="profile-popup-page-historydata-table-td">
+							<span class="profile-popup-page-historydata-row-span"></span>
+							<span class="profile-popup-page-historydata-row-div-price profile-popup-page-historydata-row-span"></span>
+						</td>
+						<td class="profile-popup-page-historydata-table-td"></td>
+						<td class="profile-popup-page-historydata-table-td"></td>
+					</tr>
+				</table>
+				<div id="profile-popup-page-historydata-refresh-button" class="select-none">
+					<span>Refresh</span>
+				</div>
+			</div>
+		</div>
+		<div id="profile-popup-page-settings" class="profile-popup-page-switch-module">
+			<div id="profile-popup-page-settings-wrapper">
+				<div id="profile-popup-page-settings-inner-div-wrapper">
+					<div id="profile-popup-page-settings-left-inner-div" class="profile-popup-page-settings-inner-div">
+						<div class="profile-popup-page-settings-left-inner-div-row">
+							<span>Username:</span><span>habbygab</span>
+						</div>
+						<div class="profile-popup-page-settings-left-inner-div-row">
+							<span>Account Type:</span><span>Trader</span>
+						</div>
+						<div class="profile-popup-page-settings-left-inner-div-row">
+							<span>E-mail:</span><span></span>
+						</div>
+						<div class="profile-popup-page-settings-left-inner-div-row">
+							<span>Two-Factor Authentication:</span><div class="profile-popup-page-settings-left-inner-div-row-div"></div>
+						</div>
+						<div id="profile-popup-page-set-2fa-div" class="profile-popup-page-settings-left-inner-div-row">
+							<div id="two-fa-phone" class="blue-button select-none">Enable Google Authenticator 2FA</div>
+						</div>
+					</div>
+					<div id="profile-popup-page-settings-right-inner-div" class="profile-popup-page-settings-inner-div">
+						<div class="profile-popup-page-settings-right-inner-div-row">
+							<span>Change Password</span>
+						</div>
+						<div class="profile-popup-page-settings-right-inner-div-row">
+							<input type="password" id="profile-popup-page-old-password-input" type="text" placeholder="Old Password"></input>
+						</div>
+						<div class="profile-popup-page-settings-right-inner-div-row">
+							<input id="profile-popup-page-new-password1-input" type="text" placeholder="New Password"></input>
+						</div>
+						<div class="profile-popup-page-settings-right-inner-div-row">
+							<input id="profile-popup-page-new-password2-input" type="text" placeholder="Re-type Password"></input>
+						</div>
+						<div id="profile-popup-page-settings-submit-button" class="select-none">
+							<span>Save Password</span>
+						</div>
+					</div>
+					<span id="profile-popup-page-change-password-conf-message" class="green-notification-text">Password successfully changed</span>
+					<span id="profile-popup-page-error-message" class="red-notification-text"></span>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="login-popup-page-wrapper" class="popup-page-wrapper">
+	<div id="login-popup-page">
+		<div style="
+		position: absolute;
+		height: 10px;
+		width: 100%;
+		top: 0%;
+		background-color: #ff9800;
+	"></div>
+		<div id="login-popup-page-load-overlay" class="load-overlay">
+			<div class='uil-ring-css' style='transform:scale(0.17);'><div></div></div>
+		</div>
+		<div id="login-popup-page-close-button" class="popup-page-close-button cursor-pointer-select-none">
+				<span>x</span>
+		</div>
+		<!-- <div class="alcurex-logo login-popup-page-logo">
+			<div class="alcurex-logo-bar alcurex-logo-shorter-bar">
+			</div>
+			<div class="alcurex-logo-bar alcurex-logo-longer-bar">
+			</div>
+			<span class="alcurex-logo-text">lcurex</span>
+		</div> -->
+		<div id="login-popup-page-profile-icon" class="profile-icon">
+			<div class="head"></div>
+			<div class="body"></div>
+		</div>
+		<div id="login-popup-page-login-div">
+			<input type="text" id="login-input-username" placeholder="E-mail">
+			</input>
+			<span id="login-popup-page-forgot-password-text" class="small-link-text select-none">Forgot your password?</span>
+			<input type="password" id="login-input-password" placeholder="Password">
+			</input>
+		</div>
+		<div id="login-popup-page-forgot-password-div">
+			<input type="text" id="forgot-password-input-email" placeholder="E-mail">
+			<span id="login-popup-page-forgot-password-message" class="white-notification-text cursor-default select-none">Enter recovery E-mail address</span>
+		</div>
+		<div id="login-popup-page-2FA-div">
+			<span id="login-popup-page-2FA-message" class="green-notification-text cursor-default select-none"></span>
+			<input type="password" id="login-2FA-input" placeholder="PIN-code" maxlength="6">
+			</input>
+		</div>
+		<div id="login-popup-page-login-button" class="login-popup-page-button cursor-pointer-select-none">
+			Login
+		</div>
+		<div id="login-popup-page-submit-pin-button" class="login-popup-page-button cursor-pointer-select-none">
+			Submit PIN
+		</div>
+		<div id="login-popup-page-back-button" class="login-popup-page-button cursor-pointer-select-none">
+			Back
+		</div>
+		<div id="login-popup-page-password-recovery-button" class="login-popup-page-button cursor-pointer-select-none">
+			Send
+		</div>
+		<span id="login-popup-page-error-message" class="red-notification-text"></span>
+		<div id="login-success-message-wrapper">
+			<span id="login-success-message"></span>
+		</div>
+		<span id="password-reset-sent-message" class="green-notification-text">Password recovery request sent: Check email</span>
+	</div>
+</div>
+<div id="signup-popup-page-wrapper" class="popup-page-wrapper">
+	<div id="signup-popup-page">
+	<div style="
+    height: 10px;
+    position: absolute;
+    top: 0%;
+    width: 100%;
+    background-color: #4caf50;
+"></div>
+<div class="profile-icon" style="width: 100px;height: 100px;border-radius: 40px 5px 5px 5px;background-color: #4CAF50;position: relative;">
+<div class="cursor-default select-none" style="
+    position: absolute;
+    font-size: 35px;
+    font-family: 'Roboto';
+    font-weight: 700;
+    color: #4caf50;
+    top: -16px;
+    left: -9px;
+">+</div>
+			<div class="head" style="
+    width: 45px;
+    height: 45px;
+    border-radius: 7;
+    border-radius: 26px;
+    margin: auto;
+    margin-top: 19px;
+    background-color: #fff;
+"></div>
+			<div class="body" style="
+    position: absolute;
+    bottom: 0%;
+    width: 86%;
+    left: 7%;
+    height: 27px;
+    border-radius: 35px 35px 0px 0px;
+    background-color: #fff;
+"></div>
+		</div>
+		<div id="signup-popup-page-load-overlay" class="load-overlay">
+			<div class='uil-ring-css' style='transform:scale(0.17);'><div></div></div>
+		</div>
+		<div id="signup-popup-page-close-button" class="popup-page-close-button cursor-pointer-select-none" style="z-index:10"><!--remove z-index-->
+				<span>x</span>
+		</div>
+<!-- 		<div class="alcurex-logo login-popup-page-logo">
+			<div class="alcurex-logo-bar alcurex-logo-shorter-bar">
+			</div>
+			<div class="alcurex-logo-bar alcurex-logo-longer-bar">
+			</div>
+			<span class="alcurex-logo-text">lcurex</span>
+		</div> -->
+		<div id="signup-popup-page-signup-div">
+			<input type="text" id="signup-input-username" placeholder="Username (Public)">
+			</input>
+			<input type="password" id="signup-input-password1" placeholder="Password">
+			</input>
+			<input type="password" id="signup-input-password2" placeholder="Re-type Password">
+			</input>
+			<input type="text" id="signup-input-email" placeholder="E-Mail">
+			</input>
+			<img id="signup-captcha-img" src="https://alcurex.com/scripts/captcha_code_file.php">
+			<input type="text" id="signup-captcha-input" placeholder="Enter captcha text"/>
+		</div>
+		<div id="signup-popup-page-email-conf-div">
+			<span id="login-popup-page-email-conf-message" class="green-notification-text">E-Mail confirmation sent</span>
+		</div>
+		<div id="signup-popup-page-signup-button" class="login-popup-page-button cursor-pointer-select-none">
+			Sign Up
+		</div>
+		<span id="signup-popup-page-error-message" class="red-notification-text"></span>
+		<span id="signup-popup-page-terms-and-conditions">
+			Signing up means you accept our <span id="signup-popup-page-terms-and-conditions-link" class="small-link-text">Terms & Conditions</span>
+		</span>
+	</div>
+</div>
+<div id="help-popup-page-wrapper" class="popup-page-wrapper">
+	<div id="help-popup-page">
+		<div id="help-popup-page-close-button" class="popup-page-close-button cursor-pointer-select-none" style="z-index:10">
+			<span>x</span>
+		</div>
+		<div class="header">Tutorials</div>
+		<div class="wrapper">
+			<div class="left"></div>
+			<div class="right">
+				<div class="list-menu">
+					<div class="list-menu-row">Creating an account</div>
+					<div class="list-menu-row">Depositing / Withdrawing</div>
+					<div class="list-menu-row">The order book</div>
+					<div class="list-menu-row">Placing an order</div>
+					<div class="list-menu-row">Keeping track of your investments</div>
+					<div class="list-menu-row">Making profit</div>
+					<div class="list-menu-row">Risk management</div>
+					<div class="list-menu-row">+ Learning resources</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="exchange-footer">
+	<div class="exchange-footer-darken-color"></div>
+	<div style="
+		height: 100%;
+		width: 250px;
+		order: 0;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+	">Alcurex 2.2.0 &nbsp;Chameleon&nbsp; | &nbsp;<a href="https://alcurex.com/one/index.html"><font color="ffffff">1-color Mode</font></a></div>
+	<div id="exchange-footer-counter" class="exchange-footer-div">
+		<span>Updated <span id="exchange-footer-counter-number">2</span> seconds ago<span id="exchange-footer-counter-dots"></span></span>
+	</div>
+	<div id="exchange-footer-weekly-volume" style="display:none" class="exchange-footer-div">
+		<span>Weekly Volume:</span>
+		<span>BTC: <span id="exchange-footer-weekly-volume-btc">0</span></span>
+		<span>USD: <span id="exchange-footer-weekly-volume-usd">0</span></span>
+	</div>
+	<div id="exchange-footer-users-server-time" class="exchange-footer-div">
+		<span>Users: <span id="exchange-footer-users-number">3884</span></span>
+		<span>Server time: <span id="exchange-footer-users-server-time-number">2016-04-18 09:05</span></span>
+	</div>
+</div>
+<!-- partial -->
+  <script  src="./script.js"></script>
+
+</body>
+</html>
